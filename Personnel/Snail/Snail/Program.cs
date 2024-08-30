@@ -11,26 +11,40 @@ namespace Snail
     {
         static void Main(string[] args)
         {
-            int life = 50;
-            string snail = "_@_ö";
-            int left = 0;
-            
+            List<Snail> snails = new List<Snail>();
+
+            for (int i = 0; i < 10; i++)
+            {
+                snails.Add(new Snail(i));
+            }
+
+            Console.ForegroundColor = ConsoleColor.Green;
+
+            //rend le curseur invisble
+            Console.CursorVisible = false;
+
             //déplacement
             do
             {
-                Thread.Sleep(200);
                 Console.Clear();
-                Console.SetCursorPosition(left, 15);
-                Console.WriteLine(snail);
-                life--;
-                left++;
+                foreach (Snail snail in snails)
+                {
+                    Console.SetCursorPosition(snail.x, snail.y);
+                    Console.WriteLine(snail.alive);
+                    snail.Move();
+                }
+                Thread.Sleep(30);
 
-            } while (life > 0);
+            } while (snails[0].life > 0);
 
             //mort
+            Console.ForegroundColor = ConsoleColor.Red;
             Console.Clear();
-            Console.SetCursorPosition(left, 15);
-            Console.WriteLine("____");
+            foreach (Snail snail in snails)
+            {
+                Console.SetCursorPosition(snail.x, snail.y);
+                Console.WriteLine(snail.dead);
+            }
             Console.ReadLine();
         }
     }
